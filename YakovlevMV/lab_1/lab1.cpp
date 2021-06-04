@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-//using T = int;
+using T = int;
 
 template<typename T>
 class List
