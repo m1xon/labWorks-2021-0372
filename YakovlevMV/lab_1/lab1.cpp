@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-//using T = int;
+using T = double;
 
 template<typename T>
 class List
@@ -27,16 +27,17 @@ public:
 	bool insert(T value, unsigned pos);
 	void removeAt(int index);
 	void pop_back();
+	void remove_range(int pos, int count);
 
 private:
 
 	template<typename T>
-	class Node 
+	class Node
 	{
 	public:
 		Node* pNext;
 		T value;
-		Node(T value = T(), Node* pNext = nullptr) 
+		Node(T value = T(), Node* pNext = nullptr)
 		{
 			this->value = value;
 			this->pNext = pNext;
@@ -44,7 +45,7 @@ private:
 	};
 
 	int Size;
-	Node<T> *head;
+	Node<T>* head;
 };
 
 template<typename T>
@@ -142,7 +143,7 @@ bool List<T>::contains(const T& value)
 template<typename T>
 void List<T>::pop_front()
 {
-	Node<T> *temp = head;
+	Node<T>* temp = head;
 	head = head->pNext;
 
 	delete temp;
@@ -205,7 +206,7 @@ bool List<T>::insert(T value, unsigned pos)
 	{
 		Node<T>* previous = this->head;
 
-		for (int  i = 0; i < pos - 1; i++)
+		for (int i = 0; i < pos - 1; i++)
 		{
 			previous = previous->pNext;
 		}
@@ -255,6 +256,23 @@ void List<T>::pop_back()
 	removeAt(Size - 1);
 }
 
+template<typename T>
+void List<T>::remove_range(int pos, int count)
+{
+	int temp_size = Size;
+	if ((pos + count) <= temp_size) {
+		for (int i = 0; i < count; i++) {
+			removeAt(pos);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < temp_size; i++) {
+			removeAt(pos);
+		}
+	}
+}
+
 void print(List<int>& List)
 {
 	for (int i = 0; i < List.GetSize(); i++)
@@ -290,7 +308,7 @@ int main() {
 	print(lst_1);
 
 	cout << "Contains" << endl;
-	cout << lst_1.contains(0) << endl; 
+	cout << lst_1.contains(0) << endl;
 
 	cout << "Operator" << endl;
 	cout << lst_1.operator[](2) << endl;
@@ -298,5 +316,9 @@ int main() {
 	cout << "Find" << endl;
 	cout << lst_1.find(6) << endl;
 
-    return 0;
+	cout << "Remove_range" << endl;
+	lst_1.remove_range(3, 3);
+	print(lst_1);
+
+	return 0;
 }
